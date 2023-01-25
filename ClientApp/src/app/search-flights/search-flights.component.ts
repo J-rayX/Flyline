@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FlightService } from './../api/services/flight.service';
+//import { FlightRm } from '../api/models';
 import { FlightRm } from '../api/models';
 
 
@@ -10,13 +11,15 @@ import { FlightRm } from '../api/models';
 })
 export class SearchFlightsComponent {
 
+  //searchResult: FlightRm[] = []
   searchResult: FlightRm[] = []
+
 
   constructor(private flightService: FlightService) { }
 
 
-  //ngOnInit(): void {
-  //}
+  ngOnInit(): void {
+  }
 
   search() {
     this.flightService.searchFlight({})
@@ -25,12 +28,12 @@ export class SearchFlightsComponent {
   }
 
   private handleError(err: any) {
-    console.log(err)
+    console.log("Response Error. Status: ", err.status)
+    console.log("Response Error. Status Text: ", err.statusText)
   }
+
+
 }
-
-
-  
 
 
 
