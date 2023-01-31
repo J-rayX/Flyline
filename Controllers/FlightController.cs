@@ -1,6 +1,6 @@
 ﻿using Flyline.ReadModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
+using Flyline.Dtos;
 
 namespace Flyline.Controllers
 {
@@ -67,6 +67,10 @@ namespace Flyline.Controllers
                     random.Next(1, 853))
             };
 
+        static private IList<BookDto> Bookings = new List<BookDto>();
+        // static: makes it active throughout the runtime. Non-static would only be available for a single request
+        // non-static: won't get information about previous bookings made in the runtime
+
         public FlightController(ILogger<FlightController> logger)
         {
             _logger = logger;
@@ -94,6 +98,26 @@ namespace Flyline.Controllers
                 return NotFound();
 
             return Ok(flight);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(500)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(200)]
+
+        public IActionResult Book(BookDto dto)
+        //public void Book(BookDto dto)
+        {
+            System.Diagnostics.Debug.WriteLine($"Booking a new flight {dto.FlightId}");
+
+            var flightFound = flights.Any(f => f.Id == dto.FlightId);
+
+            if (flightFound == false)
+                return NotFound();
+
+            Bookings.Add(dto);
+            return CreatedAtAction(nameof(Find), new { id = dto.FlightId });
         }
     }
 }
