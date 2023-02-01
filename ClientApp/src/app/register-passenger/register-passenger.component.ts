@@ -25,10 +25,10 @@ export class RegisterPassengerComponent implements OnInit {
   // the following form is attached to the formGroup in the HTML template
   // it accepts and holds user input made on the HTML form 
   form = this.fb.group({
-    email: [''],
-    firstName: [''],
-    lastName: [''],
-    isFemale: [true]
+    email: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(100)])],
+    firstName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(35)])],
+    lastName: ['', Validators.compose([Validators.required, Validators.minLength(2), Validators.maxLength(35)])],
+    isFemale: [true, Validators.required]
   })
 
   ngOnInit(): void {
