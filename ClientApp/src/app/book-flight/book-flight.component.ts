@@ -50,6 +50,13 @@ export class BookFlightComponent {
       alert("Flight not found!")
       this.router.navigate(['/search-flights'])
     }
+
+    if (err.status == 409) {
+      console.log("err: " + err);
+      alert(JSON.parse(err.error).message)
+    }
+
+
     console.log("Response Error. Status: ", err.status)
     console.log("Response Error. Status Text: ", err.statusText)
     console.log(err)
