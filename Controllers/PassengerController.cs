@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Flyline.Dtos;
 using Flyline.ReadModels;
 using Flyline.Domain.Entities;
+using Flyline.Data;
 
 namespace Flyline.Controllers
 {
@@ -10,22 +11,20 @@ namespace Flyline.Controllers
     [ApiController]
     public class PassengerController : ControllerBase
     {
-        // create a list of datatype NewPassengerDto to hold the received bookings from frontend
-        static private IList<Passenger> Passengers = new List<Passenger>();
-
+        
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public IActionResult Register(NewPassengerDto dto)
         {
-            Passengers.Add(new Passenger(
+            Entities.Passengers.Add(new Passenger(
                 dto.Email,
                 dto.FirstName,
                 dto.LastName,
                 dto.Gender
                 )); // Add the booking coming from FE POST to the list of Passengers 
-            System.Diagnostics.Debug.WriteLine(Passengers.Count); // Console log to see new Passenger addition (Debug run mode)
+            System.Diagnostics.Debug.WriteLine(Entities.Passengers.Count); // Console log to see new Passenger addition (Debug run mode)
             // return Ok(); // Meant for GET - 200
             // return Created(); // to return 201 for POST
 
@@ -60,7 +59,7 @@ namespace Flyline.Controllers
                which is different from PassengerRm set above
                in ActionResult
             */
-            var passenger = Passengers.FirstOrDefault(p => p.Email == email);
+            var passenger = Entities.Passengers.FirstOrDefault(p => p.Email == email);
             /*FirstOrDefault in above goes into the Passengers list and finds 1 or none 
                where email is email
              */
