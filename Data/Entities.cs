@@ -7,10 +7,10 @@ namespace Flyline.Data
     public class Entities
     {
         // create a list of datatype NewPassengerDto to hold the received bookings from frontend
-        static public IList<Passenger> Passengers = new List<Passenger>();
+        public IList<Passenger> Passengers = new List<Passenger>();
 
         static Random random = new Random();
-        static public Flight[] Flights = new Flight[]
+        public Flight[] Flights = new Flight[]
         {
         new (   Guid.NewGuid(),
             "Overland",

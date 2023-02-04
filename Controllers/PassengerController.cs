@@ -11,20 +11,25 @@ namespace Flyline.Controllers
     [ApiController]
     public class PassengerController : ControllerBase
     {
-        
+        private readonly Entities _entities;
+        public PassengerController(Entities entities)
+        {
+            _entities = entities;
+        }
+
         [HttpPost]
         [ProducesResponseType(201)]
         [ProducesResponseType(400)]
         [ProducesResponseType(500)]
         public IActionResult Register(NewPassengerDto dto)
         {
-            Entities.Passengers.Add(new Passenger(
+            _entities.Passengers.Add(new Passenger(
                 dto.Email,
                 dto.FirstName,
                 dto.LastName,
                 dto.Gender
                 )); // Add the booking coming from FE POST to the list of Passengers 
-            System.Diagnostics.Debug.WriteLine(Entities.Passengers.Count); // Console log to see new Passenger addition (Debug run mode)
+            System.Diagnostics.Debug.WriteLine(_entities.Passengers.Count); // Console log to see new Passenger addition (Debug run mode)
             // return Ok(); // Meant for GET - 200
             // return Created(); // to return 201 for POST
 
@@ -59,7 +64,7 @@ namespace Flyline.Controllers
                which is different from PassengerRm set above
                in ActionResult
             */
-            var passenger = Entities.Passengers.FirstOrDefault(p => p.Email == email);
+            var passenger = _entities.Passengers.FirstOrDefault(p => p.Email == email);
             /*FirstOrDefault in above goes into the Passengers list and finds 1 or none 
                where email is email
              */

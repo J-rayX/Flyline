@@ -1,4 +1,7 @@
 using Microsoft.OpenApi.Models;
+using Flyline.Data;
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -14,6 +17,9 @@ builder.Services.AddSwaggerGen( c =>
 
     c.CustomOperationIds(e => $"{e.ActionDescriptor.RouteValues["action"]+ e.ActionDescriptor.RouteValues["controller"]}");
 });
+
+// Add a singleton of type Entities to the dependency injection ecosystem
+builder.Services.AddSingleton<Entities>();
 
 var app = builder.Build();
 

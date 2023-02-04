@@ -16,15 +16,18 @@ namespace Flyline.Controllers
 
         private readonly ILogger<FlightController> _logger;
 
-        static Random random = new Random();
+        private readonly Entities _entities;
+
 
         // static private IList<Booking> Bookings = new List<Booking>();
         // static: makes it active throughout the runtime. Non-static would only be available for a single request
         // non-static: won't get information about previous bookings made in the runtime
 
-        public FlightController(ILogger<FlightController> logger)
+        public FlightController(ILogger<FlightController> logger, 
+            Entities entities)
         {
             _logger = logger;
+            _entities = entities;
         }
 
 
@@ -34,7 +37,7 @@ namespace Flyline.Controllers
         [ProducesResponseType(typeof(IEnumerable<FlightRm>), 200)]
         public IEnumerable<FlightRm> Search()
         {
-            var flightRmList = Entities.Flights.Select(flight => new FlightRm(
+            var flightRmList = _entities.Flights.Select(flight => new FlightRm(
                 flight.Id,
                 flight.Airline,
                 flight.Price,
@@ -54,7 +57,7 @@ namespace Flyline.Controllers
         [ProducesResponseType(typeof(FlightRm), 200)]
         public ActionResult<FlightRm> Find(Guid id)
         {
-            var flight = Entities.Flights.SingleOrDefault(f => f.Id == id);
+            var flight = _entities.Flights.SingleOrDefault(f => f.Id == id);
 
             if (flight == null)
                 return NotFound();
@@ -82,7 +85,7 @@ namespace Flyline.Controllers
         {
             System.Diagnostics.Debug.WriteLine($"Booking a new flight {dto.FlightId}");
 
-            var flight = Entities.Flights.SingleOrDefault(f => f.Id == dto.FlightId);
+            var flight = _entities.Flights.SingleOrDefault(f => f.Id == dto.FlightId);
 
             if (flight == null)
                 return NotFound();
