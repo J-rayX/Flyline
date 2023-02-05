@@ -5,6 +5,7 @@ using Flyline.Dtos;
 using System;
 using Flyline.Domain.Errors;
 using Flyline.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Flyline.Controllers
 {
@@ -94,6 +95,15 @@ namespace Flyline.Controllers
 
             if(error is OverbookError)
                 return Conflict(new { message = "Not enough seats." });
+
+            // catch race condition error
+            try
+            {
+                _entities.SaveChanges();
+            } catch(DbUpdateConcurrencyException e)
+            {
+                return Conflict(new { message = "An error occurred while booking. Please try again" });
+            }
 
             _entities.SaveChanges();
             
