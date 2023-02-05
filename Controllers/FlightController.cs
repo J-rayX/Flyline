@@ -1,5 +1,5 @@
 ﻿using Flyline.ReadModels;
-using Flyline.Domains.Entities;
+using Flyline.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Flyline.Dtos;
 using System;
@@ -93,9 +93,10 @@ namespace Flyline.Controllers
             var error = flight.MakeBooking(dto.PassengerEmail, dto.NumberOfSeats);
 
             if(error is OverbookError)
-            {
                 return Conflict(new { message = "Not enough seats." });
-            }
+
+            _entities.SaveChanges();
+            
 
             return CreatedAtAction(nameof(Find), new { id = dto.FlightId });
         }

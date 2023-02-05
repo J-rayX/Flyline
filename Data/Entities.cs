@@ -1,14 +1,27 @@
 ﻿using Flyline.Domain.Entities;
-using Flyline.Domains.Entities;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Flyline.Data
 {
-    public class Entities
+    public class Entities : DbContext
     {
-        // create a list of datatype NewPassengerDto to hold the received bookings from frontend
-        public IList<Passenger> Passengers = new List<Passenger>();
-        public List<Flight> Flights = new List<Flight>();
+        public DbSet<Passenger> Passengers => Set<Passenger>();
+        public DbSet<Flight> Flights => Set<Flight>();
+
+
+        public Entities(DbContextOptions<Entities> options) : base(options)
+        {
+
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Passenger>().HasKey(p => p.Email);
+
+            modelBuilder.Entity<Flight>().OwnsOne(f => f.Departure);
+            modelBuilder.Entity<Flight>().OwnsOne(f => f.Arrival);
+        }
 
     }
 }

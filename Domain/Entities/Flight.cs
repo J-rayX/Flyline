@@ -1,22 +1,45 @@
 ﻿using Flyline.Domain.Errors;
 using Flyline.ReadModels;
 
-namespace Flyline.Domains.Entities
+namespace Flyline.Domain.Entities
 {
-    public record Flight(
-        Guid Id,
-        string Airline,
-        string Price,
-        TimePlace Departure,
-        TimePlace Arrival,
-        int RemainingNumberOfSeats
-        )
-
+    public class Flight
     {
+        public Guid Id { get; set; }
+        public string Airline { get; set; }
+        public string Price { get; set; }
+        public TimePlace Departure { get; set; }
+        public TimePlace Arrival { get; set; }
+        public int RemainingNumberOfSeats { get; set; }
+
         public IList<Booking> Bookings = new List<Booking>();
 
+
+        public Flight()
+        {
+
+        }
+
+        public Flight(
+            Guid id,
+            string airline,
+            string price,
+            TimePlace departure,
+            TimePlace arrival,
+            int remainingNumberOfSeats
+        )
+        {
+            Id = id;
+            Airline = airline;
+            Price = price;
+            Departure = departure;
+            Arrival = arrival;
+            RemainingNumberOfSeats = remainingNumberOfSeats;
+        }
+
+
         // make RemainingNumberOfSeats a property to make it immutable
-        public int RemainingNumberOfSeats { get; set; } = RemainingNumberOfSeats;
+        //public int RemainingNumberOfSeats { get; set; } = RemainingNumberOfSeats;
 
         internal object? MakeBooking(string passengerEmail, byte numberOfSeats)
         {

@@ -29,7 +29,10 @@ namespace Flyline.Controllers
                 dto.LastName,
                 dto.Gender
                 )); // Add the booking coming from FE POST to the list of Passengers 
-            System.Diagnostics.Debug.WriteLine(_entities.Passengers.Count); // Console log to see new Passenger addition (Debug run mode)
+
+            _entities.SaveChanges();
+            
+            // System.Diagnostics.Debug.WriteLine(_entities.Passengers.Count); // Console log to see new Passenger addition (Debug run mode)
             // return Ok(); // Meant for GET - 200
             // return Created(); // to return 201 for POST
 
