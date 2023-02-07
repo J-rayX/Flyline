@@ -1,7 +1,7 @@
 ﻿namespace Flyline.ReadModels
 {
     public record BookingRm(
-        Guid FlighyIf,
+        Guid FlightId,
         string Airline,
         string Price,
         TimePlaceRm Arrival,

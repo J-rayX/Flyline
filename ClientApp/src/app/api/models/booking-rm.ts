@@ -5,7 +5,7 @@ export interface BookingRm {
   airline?: null | string;
   arrival?: TimePlaceRm;
   departure?: TimePlaceRm;
-  flighyIf?: string;
+  flightId?: string;
   numberOfBookedSeats?: number;
   passengerEmail?: null | string;
   price?: null | string;
